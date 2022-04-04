@@ -9,3 +9,9 @@ eureka:
   client:
     serviceUrl:
       defaultZone: ${EUREKA_URI:http://localhost:50001/eureka/}
+
+feign:
+  client:
+    config:
+      scheduler:
+        name: scheduler
