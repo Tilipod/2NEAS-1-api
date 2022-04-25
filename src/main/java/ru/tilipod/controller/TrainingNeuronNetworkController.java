@@ -10,9 +10,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import ru.tilipod.controller.dto.enums.TaskStatusEnum;
-import ru.tilipod.controller.dto.TrainingRequestDto;
-import ru.tilipod.controller.dto.TrainingResponseDto;
+import ru.tilipod.controller.dto.TrainingRequest;
+import ru.tilipod.controller.dto.TrainingResponse;
 import ru.tilipod.feign.scheduler.SchedulerApi;
 
 import java.util.UUID;
@@ -27,19 +26,19 @@ public class TrainingNeuronNetworkController {
 
     @PostMapping("/")
     @ApiOperation(value = "Создать новую задачу по обучению нейронной сети")
-    public ResponseEntity<UUID> createTask(@RequestBody TrainingRequestDto request) {
+    public ResponseEntity<UUID> createTask(@RequestBody TrainingRequest request) {
         return schedulerApi.createTaskUsingPOST(request);
     }
 
     @GetMapping("/{taskId}")
     @ApiOperation(value = "Получить статус задачи по обучению нейронной сети")
-    public ResponseEntity<TaskStatusEnum> getTaskStatus(@PathVariable UUID taskId) {
+    public ResponseEntity<String> getTaskStatus(@PathVariable UUID taskId) {
         return schedulerApi.getTaskStatusUsingGET(taskId);
     }
 
     @GetMapping("/{taskId}/result")
     @ApiOperation(value = "Получить результат задачи по обучению нейронной сети")
-    public ResponseEntity<TrainingResponseDto> getTaskTrainingResult(@PathVariable UUID taskId) {
+    public ResponseEntity<TrainingResponse> getTaskTrainingResult(@PathVariable UUID taskId) {
         return schedulerApi.getTaskTrainingResultUsingGET(taskId);
     }
 
@@ -47,5 +46,11 @@ public class TrainingNeuronNetworkController {
     @ApiOperation(value = "Остановить задачу по обучению нейронной сети")
     public ResponseEntity<Boolean> stopTraining(@PathVariable UUID taskId) {
         return schedulerApi.stopTrainingUsingPOST(taskId);
+    }
+
+    @PostMapping("/{taskId}/redistribute")
+    @ApiOperation(value = "Откатить задачу и повторно выгрузить датасеты")
+    public ResponseEntity<Boolean> redistribute(@PathVariable UUID taskId) {
+        return schedulerApi.redistributeUsingPOST(taskId);
     }
 }

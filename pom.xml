@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>groupId</groupId>
+    <groupId>ru.tilipod</groupId>
     <artifactId>2NEAS-1-api</artifactId>
     <version>0.0.1-SNAPSHOT</version>
 
@@ -101,6 +101,17 @@
             <artifactId>mockito-core</artifactId>
             <version>4.4.0</version>
             <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.deeplearning4j</groupId>
+            <artifactId>deeplearning4j-core</artifactId>
+            <version>0.9.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.nd4j</groupId>
+            <artifactId>nd4j-native-platform</artifactId>
+            <version>0.9.1</version>
         </dependency>
 
     </dependencies>
