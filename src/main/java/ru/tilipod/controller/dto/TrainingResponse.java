@@ -15,9 +15,6 @@ public class TrainingResponse   {
   @JsonProperty("comment")
   private String comment;
 
-  @JsonProperty("model")
-  private byte[] model;
-
   /**
    * Текущий статус задачи на обучение
    */
@@ -98,26 +95,6 @@ public class TrainingResponse   {
     this.comment = comment;
   }
 
-  public TrainingResponse model(byte[] model) {
-    this.model = model;
-    return this;
-  }
-
-  /**
-   * Модель обученной нейросети
-   * @return model
-  */
-  @ApiModelProperty(value = "Модель обученной нейросети")
-
-
-  public byte[] getModel() {
-    return model;
-  }
-
-  public void setModel(byte[] model) {
-    this.model = model;
-  }
-
   public TrainingResponse status(StatusEnum status) {
     this.status = status;
     return this;
@@ -149,13 +126,12 @@ public class TrainingResponse   {
     }
     TrainingResponse trainingResponse = (TrainingResponse) o;
     return Objects.equals(this.comment, trainingResponse.comment) &&
-        Objects.equals(this.model, trainingResponse.model) &&
         Objects.equals(this.status, trainingResponse.status);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(comment, model, status);
+    return Objects.hash(comment, status);
   }
 
   @Override
@@ -164,7 +140,6 @@ public class TrainingResponse   {
     sb.append("class TrainingResponse {\n");
     
     sb.append("    comment: ").append(toIndentedString(comment)).append("\n");
-    sb.append("    model: ").append(toIndentedString(model)).append("\n");
     sb.append("    status: ").append(toIndentedString(status)).append("\n");
     sb.append("}");
     return sb.toString();

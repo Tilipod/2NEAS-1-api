@@ -86,22 +86,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "type": "string",
-              "enum": [
-                "CREATED",
-                "ANALYSIS",
-                "ANALYZED",
-                "DISTRIBUTING",
-                "DISTRIBUTED",
-                "TRAINING",
-                "TRAINED",
-                "CONFIRMED",
-                "STOPPED",
-                "ANALYSIS_ERROR",
-                "TRAINING_ERROR",
-                "DISTRIBUTE_ERROR",
-                "SYSTEM_ERROR"
-              ]
+              "$ref": "#/definitions/TrainingResponse"
             }
           },
           "401": {
@@ -187,7 +172,8 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/TrainingResponse"
+              "type": "string",
+              "format": "byte"
             }
           },
           "401": {
@@ -548,11 +534,6 @@
         "comment": {
           "type": "string",
           "description": "Комментарий к статусу"
-        },
-        "model": {
-          "type": "string",
-          "format": "byte",
-          "description": "Модель обученной нейросети"
         },
         "status": {
           "type": "string",

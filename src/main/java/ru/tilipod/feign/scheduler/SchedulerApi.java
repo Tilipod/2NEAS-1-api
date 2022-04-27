@@ -46,13 +46,13 @@ public interface SchedulerApi {
      *         or Forbidden (status code 403)
      *         or Not Found (status code 404)
      */
-    @ApiOperation(value = "Получить статус задачи по обучению нейронной сети", nickname = "getTaskStatusUsingGET", response = String.class, tags={ "client-request-controller", })
-    @ApiResponses(value = {@ApiResponse(code = 200, message = "OK", response = String.class),
-            @ApiResponse(code = 401, message = "Unauthorized"),
-            @ApiResponse(code = 403, message = "Forbidden"),
-            @ApiResponse(code = 404, message = "Not Found") })
+    @ApiOperation(value = "Получить статус задачи по обучению нейронной сети", nickname = "getTaskStatusUsingGET", notes = "", response = TrainingResponse.class, tags={ "client-request-controller", })
+    @ApiResponses(value = {@ApiResponse(code = 200, message = "OK", response = TrainingResponse.class),
+                           @ApiResponse(code = 401, message = "Unauthorized"),
+                           @ApiResponse(code = 403, message = "Forbidden"),
+                           @ApiResponse(code = 404, message = "Not Found") })
     @GetMapping(value = "/client/{taskId}", produces = { "*/*" })
-    ResponseEntity<String> getTaskStatusUsingGET(@ApiParam(value = "taskId",required=true) @PathVariable("taskId") UUID taskId);
+    ResponseEntity<TrainingResponse> getTaskStatusUsingGET(@ApiParam(value = "taskId",required=true) @PathVariable("taskId") UUID taskId);
 
 
     /**
@@ -64,13 +64,13 @@ public interface SchedulerApi {
      *         or Forbidden (status code 403)
      *         or Not Found (status code 404)
      */
-    @ApiOperation(value = "Получить результат задачи по обучению нейронной сети", nickname = "getTaskTrainingResultUsingGET", response = TrainingResponse.class, tags={ "client-request-controller", })
-    @ApiResponses(value = {@ApiResponse(code = 200, message = "OK", response = TrainingResponse.class),
-            @ApiResponse(code = 401, message = "Unauthorized"),
-            @ApiResponse(code = 403, message = "Forbidden"),
-            @ApiResponse(code = 404, message = "Not Found") })
+    @ApiOperation(value = "Получить результат задачи по обучению нейронной сети", nickname = "getTaskTrainingResultUsingGET", notes = "", response = byte[].class, tags={ "client-request-controller", })
+    @ApiResponses(value = {@ApiResponse(code = 200, message = "OK", response = byte[].class),
+                           @ApiResponse(code = 401, message = "Unauthorized"),
+                           @ApiResponse(code = 403, message = "Forbidden"),
+                           @ApiResponse(code = 404, message = "Not Found") })
     @GetMapping(value = "/client/{taskId}/result", produces = { "*/*" })
-    ResponseEntity<TrainingResponse> getTaskTrainingResultUsingGET(@ApiParam(value = "taskId",required=true) @PathVariable("taskId") UUID taskId);
+    ResponseEntity<byte[]> getTaskTrainingResultUsingGET(@ApiParam(value = "taskId",required=true) @PathVariable("taskId") UUID taskId);
 
 
     /**

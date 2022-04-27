@@ -32,13 +32,13 @@ public class TrainingNeuronNetworkController {
 
     @GetMapping("/{taskId}")
     @ApiOperation(value = "Получить статус задачи по обучению нейронной сети")
-    public ResponseEntity<String> getTaskStatus(@PathVariable UUID taskId) {
+    public ResponseEntity<TrainingResponse> getTaskStatus(@PathVariable UUID taskId) {
         return schedulerApi.getTaskStatusUsingGET(taskId);
     }
 
     @GetMapping("/{taskId}/result")
     @ApiOperation(value = "Получить результат задачи по обучению нейронной сети")
-    public ResponseEntity<TrainingResponse> getTaskTrainingResult(@PathVariable UUID taskId) {
+    public ResponseEntity<byte[]> getTaskTrainingResult(@PathVariable UUID taskId) {
         return schedulerApi.getTaskTrainingResultUsingGET(taskId);
     }
 
