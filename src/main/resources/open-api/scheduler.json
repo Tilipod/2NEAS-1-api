@@ -285,7 +285,6 @@
     "LayerDto": {
       "type": "object",
       "required": [
-        "countOutput",
         "layerNumber",
         "layerType"
       ],
