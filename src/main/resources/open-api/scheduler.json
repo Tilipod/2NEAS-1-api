@@ -767,6 +767,11 @@
           "type": "string",
           "description": "Путь к папке в облаке с датасетами"
         },
+        "userUuid": {
+          "type": "string",
+          "format": "uuid",
+          "description": "UUID пользователя"
+        },
         "withMentoring": {
           "type": "boolean",
           "description": "Включить подкрепление к обучению"

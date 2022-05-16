@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import java.util.UUID;
 import javax.validation.Valid;
 
 /**
@@ -96,6 +97,9 @@ public class TrainingRequest   {
 
   @JsonProperty("pathToDataset")
   private String pathToDataset;
+
+  @JsonProperty("userUuid")
+  private UUID userUuid;
 
   @JsonProperty("withMentoring")
   private Boolean withMentoring;
@@ -221,6 +225,27 @@ public class TrainingRequest   {
     this.pathToDataset = pathToDataset;
   }
 
+  public TrainingRequest userUuid(UUID userUuid) {
+    this.userUuid = userUuid;
+    return this;
+  }
+
+  /**
+   * UUID пользователя
+   * @return userUuid
+  */
+  @ApiModelProperty(value = "UUID пользователя")
+
+  @Valid
+
+  public UUID getUserUuid() {
+    return userUuid;
+  }
+
+  public void setUserUuid(UUID userUuid) {
+    this.userUuid = userUuid;
+  }
+
   public TrainingRequest withMentoring(Boolean withMentoring) {
     this.withMentoring = withMentoring;
     return this;
@@ -257,12 +282,13 @@ public class TrainingRequest   {
         Objects.equals(this.datasetType, trainingRequest.datasetType) &&
         Objects.equals(this.neuronNetworkStructure, trainingRequest.neuronNetworkStructure) &&
         Objects.equals(this.pathToDataset, trainingRequest.pathToDataset) &&
+        Objects.equals(this.userUuid, trainingRequest.userUuid) &&
         Objects.equals(this.withMentoring, trainingRequest.withMentoring);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(cloudToken, cloudType, countEpoch, datasetType, neuronNetworkStructure, pathToDataset, withMentoring);
+    return Objects.hash(cloudToken, cloudType, countEpoch, datasetType, neuronNetworkStructure, pathToDataset, userUuid, withMentoring);
   }
 
   @Override
@@ -276,6 +302,7 @@ public class TrainingRequest   {
     sb.append("    datasetType: ").append(toIndentedString(datasetType)).append("\n");
     sb.append("    neuronNetworkStructure: ").append(toIndentedString(neuronNetworkStructure)).append("\n");
     sb.append("    pathToDataset: ").append(toIndentedString(pathToDataset)).append("\n");
+    sb.append("    userUuid: ").append(toIndentedString(userUuid)).append("\n");
     sb.append("    withMentoring: ").append(toIndentedString(withMentoring)).append("\n");
     sb.append("}");
     return sb.toString();
