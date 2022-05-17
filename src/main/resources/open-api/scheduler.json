@@ -106,52 +106,6 @@
         "deprecated": false
       }
     },
-    "/client/{taskId}/redistribute": {
-      "post": {
-        "tags": [
-          "client-request-controller"
-        ],
-        "summary": "Откатить задачу и повторно выгрузить датасеты",
-        "operationId": "redistributeUsingPOST",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "*/*"
-        ],
-        "parameters": [
-          {
-            "name": "taskId",
-            "in": "path",
-            "description": "taskId",
-            "required": true,
-            "type": "string",
-            "format": "uuid"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "type": "boolean"
-            }
-          },
-          "201": {
-            "description": "Created"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          },
-          "404": {
-            "description": "Not Found"
-          }
-        },
-        "deprecated": false
-      }
-    },
     "/client/{taskId}/result": {
       "get": {
         "tags": [
@@ -179,6 +133,98 @@
               "type": "string",
               "format": "byte"
             }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/client/{taskId}/statistic": {
+      "get": {
+        "tags": [
+          "client-request-controller"
+        ],
+        "summary": "Получить статистику обучения нейронной сети",
+        "operationId": "getStatisticUsingGET",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "taskId",
+            "in": "path",
+            "description": "taskId",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/TrainingStatistic"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/client/{taskId}/status": {
+      "put": {
+        "tags": [
+          "client-request-controller"
+        ],
+        "summary": "Обновить статус задачи по обучению нейронной сети",
+        "operationId": "changeTaskStatusUsingPUT",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "statusChangeDto",
+            "description": "statusChangeDto",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/TaskStatusChange"
+            }
+          },
+          {
+            "name": "taskId",
+            "in": "path",
+            "description": "taskId",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "201": {
+            "description": "Created"
           },
           "401": {
             "description": "Unauthorized"
@@ -733,6 +779,46 @@
       },
       "title": "Role"
     },
+    "TaskStatusChange": {
+      "type": "object",
+      "required": [
+        "comment",
+        "newStatus",
+        "userUuid"
+      ],
+      "properties": {
+        "comment": {
+          "type": "string",
+          "description": "Комментарий к изменению статуса"
+        },
+        "newStatus": {
+          "type": "string",
+          "description": "Новый статус задачи",
+          "enum": [
+            "CREATED",
+            "ANALYSIS",
+            "ANALYZED",
+            "DISTRIBUTING",
+            "DISTRIBUTED",
+            "TRAINING",
+            "TRAINED",
+            "CONFIRMED",
+            "STOPPED",
+            "ANALYSIS_ERROR",
+            "TRAINING_ERROR",
+            "DISTRIBUTE_ERROR",
+            "SYSTEM_ERROR"
+          ]
+        },
+        "userUuid": {
+          "type": "string",
+          "format": "uuid",
+          "description": "ID пользователя, изменившего статус"
+        }
+      },
+      "title": "TaskStatusChange",
+      "description": "Данные для обновления статуса задачи"
+    },
     "TrainingRequest": {
       "type": "object",
       "properties": {
@@ -787,6 +873,11 @@
           "type": "string",
           "description": "Комментарий к статусу"
         },
+        "currentPrecision": {
+          "type": "number",
+          "format": "double",
+          "description": "Текущая точность обучения сети"
+        },
         "status": {
           "type": "string",
           "description": "Текущий статус задачи на обучение",
@@ -809,6 +900,20 @@
       },
       "title": "TrainingResponse",
       "description": "Обученная нейронная сеть"
+    },
+    "TrainingStatistic": {
+      "type": "object",
+      "properties": {
+        "precisions": {
+          "type": "array",
+          "items": {
+            "type": "number",
+            "format": "double"
+          }
+        }
+      },
+      "title": "TrainingStatistic",
+      "description": "Статистика обучения нейросети"
     },
     "UpdaterDto": {
       "type": "object",

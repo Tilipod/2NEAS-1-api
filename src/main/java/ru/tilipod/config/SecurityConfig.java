@@ -24,7 +24,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/swagger-ui.html/**").hasRole("ADMIN")
+                .antMatchers("/swagger-ui.html/**").hasAnyRole("ADMIN", "SUPPORT", "ANALYTIC")
                 .antMatchers("/**").authenticated()
                 .and().formLogin();
     }

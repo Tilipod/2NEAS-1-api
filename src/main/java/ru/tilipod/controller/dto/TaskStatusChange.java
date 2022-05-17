@@ -6,22 +6,22 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import java.util.UUID;
+import javax.validation.Valid;
+import javax.validation.constraints.*;
 
 /**
- * Обученная нейронная сеть
+ * Данные для обновления статуса задачи
  */
-@ApiModel(description = "Обученная нейронная сеть")
-public class TrainingResponse   {
+@ApiModel(description = "Данные для обновления статуса задачи")
+public class TaskStatusChange   {
   @JsonProperty("comment")
   private String comment;
 
-  @JsonProperty("currentPrecision")
-  private Double currentPrecision;
-
   /**
-   * Текущий статус задачи на обучение
+   * Новый статус задачи
    */
-  public enum StatusEnum {
+  public enum NewStatusEnum {
     CREATED("CREATED"),
     
     ANALYSIS("ANALYSIS"),
@@ -50,7 +50,7 @@ public class TrainingResponse   {
 
     private String value;
 
-    StatusEnum(String value) {
+    NewStatusEnum(String value) {
       this.value = value;
     }
 
@@ -65,8 +65,8 @@ public class TrainingResponse   {
     }
 
     @JsonCreator
-    public static StatusEnum fromValue(String value) {
-      for (StatusEnum b : StatusEnum.values()) {
+    public static NewStatusEnum fromValue(String value) {
+      for (NewStatusEnum b : NewStatusEnum.values()) {
         if (b.value.equals(value)) {
           return b;
         }
@@ -75,19 +75,23 @@ public class TrainingResponse   {
     }
   }
 
-  @JsonProperty("status")
-  private StatusEnum status;
+  @JsonProperty("newStatus")
+  private NewStatusEnum newStatus;
 
-  public TrainingResponse comment(String comment) {
+  @JsonProperty("userUuid")
+  private UUID userUuid;
+
+  public TaskStatusChange comment(String comment) {
     this.comment = comment;
     return this;
   }
 
   /**
-   * Комментарий к статусу
+   * Комментарий к изменению статуса
    * @return comment
   */
-  @ApiModelProperty(value = "Комментарий к статусу")
+  @ApiModelProperty(required = true, value = "Комментарий к изменению статуса")
+  @NotNull
 
 
   public String getComment() {
@@ -98,44 +102,47 @@ public class TrainingResponse   {
     this.comment = comment;
   }
 
-  public TrainingResponse currentPrecision(Double currentPrecision) {
-    this.currentPrecision = currentPrecision;
+  public TaskStatusChange newStatus(NewStatusEnum newStatus) {
+    this.newStatus = newStatus;
     return this;
   }
 
   /**
-   * Текущая точность обучения сети
-   * @return currentPrecision
+   * Новый статус задачи
+   * @return newStatus
   */
-  @ApiModelProperty(value = "Текущая точность обучения сети")
+  @ApiModelProperty(required = true, value = "Новый статус задачи")
+  @NotNull
 
 
-  public Double getCurrentPrecision() {
-    return currentPrecision;
+  public NewStatusEnum getNewStatus() {
+    return newStatus;
   }
 
-  public void setCurrentPrecision(Double currentPrecision) {
-    this.currentPrecision = currentPrecision;
+  public void setNewStatus(NewStatusEnum newStatus) {
+    this.newStatus = newStatus;
   }
 
-  public TrainingResponse status(StatusEnum status) {
-    this.status = status;
+  public TaskStatusChange userUuid(UUID userUuid) {
+    this.userUuid = userUuid;
     return this;
   }
 
   /**
-   * Текущий статус задачи на обучение
-   * @return status
+   * ID пользователя, изменившего статус
+   * @return userUuid
   */
-  @ApiModelProperty(value = "Текущий статус задачи на обучение")
+  @ApiModelProperty(required = true, value = "ID пользователя, изменившего статус")
+  @NotNull
 
+  @Valid
 
-  public StatusEnum getStatus() {
-    return status;
+  public UUID getUserUuid() {
+    return userUuid;
   }
 
-  public void setStatus(StatusEnum status) {
-    this.status = status;
+  public void setUserUuid(UUID userUuid) {
+    this.userUuid = userUuid;
   }
 
 
@@ -147,25 +154,25 @@ public class TrainingResponse   {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    TrainingResponse trainingResponse = (TrainingResponse) o;
-    return Objects.equals(this.comment, trainingResponse.comment) &&
-        Objects.equals(this.currentPrecision, trainingResponse.currentPrecision) &&
-        Objects.equals(this.status, trainingResponse.status);
+    TaskStatusChange taskStatusChange = (TaskStatusChange) o;
+    return Objects.equals(this.comment, taskStatusChange.comment) &&
+        Objects.equals(this.newStatus, taskStatusChange.newStatus) &&
+        Objects.equals(this.userUuid, taskStatusChange.userUuid);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(comment, currentPrecision, status);
+    return Objects.hash(comment, newStatus, userUuid);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class TrainingResponse {\n");
+    sb.append("class TaskStatusChange {\n");
     
     sb.append("    comment: ").append(toIndentedString(comment)).append("\n");
-    sb.append("    currentPrecision: ").append(toIndentedString(currentPrecision)).append("\n");
-    sb.append("    status: ").append(toIndentedString(status)).append("\n");
+    sb.append("    newStatus: ").append(toIndentedString(newStatus)).append("\n");
+    sb.append("    userUuid: ").append(toIndentedString(userUuid)).append("\n");
     sb.append("}");
     return sb.toString();
   }
