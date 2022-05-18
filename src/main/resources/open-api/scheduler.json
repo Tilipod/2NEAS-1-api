@@ -700,6 +700,9 @@
           "type": "boolean",
           "description": "Признак предварительного обучения"
         },
+        "reforcement": {
+          "$ref": "#/definitions/ReforcementDto"
+        },
         "regularization": {
           "$ref": "#/definitions/RegularizationDto"
         },
@@ -734,6 +737,47 @@
         }
       },
       "title": "NeuronNetworkDto"
+    },
+    "ReforcementDto": {
+      "type": "object",
+      "properties": {
+        "countEpoch": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Кол-во эпох для обучения"
+        },
+        "epsilonStep": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Знаменатель при вычислении случайного эпсилон"
+        },
+        "errorClamp": {
+          "type": "number",
+          "format": "double",
+          "description": "Допустимый разброс при накапливании вознаграждения"
+        },
+        "gamma": {
+          "type": "number",
+          "format": "double",
+          "description": "Гамма из уравнения Белла"
+        },
+        "minEpsilon": {
+          "type": "number",
+          "format": "float",
+          "description": "Минимальный эпсилон (см. про Exploration в RL)"
+        },
+        "rewardFactor": {
+          "type": "number",
+          "format": "double",
+          "description": "Коэффициент коррекции вознаграждения"
+        },
+        "updateStart": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Итерация, после которой происходит обновление нейронной сети (для RL)"
+        }
+      },
+      "title": "ReforcementDto"
     },
     "RegularizationDto": {
       "type": "object",
@@ -837,6 +881,11 @@
           "type": "integer",
           "format": "int32",
           "description": "Кол-во эпох для обучения нейросети"
+        },
+        "countStates": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Кол-во состояний (для РЛ)"
         },
         "datasetType": {
           "type": "string",

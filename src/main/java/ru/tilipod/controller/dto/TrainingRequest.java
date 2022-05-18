@@ -56,6 +56,9 @@ public class TrainingRequest   {
   @JsonProperty("countEpoch")
   private Integer countEpoch;
 
+  @JsonProperty("countStates")
+  private Integer countStates;
+
   /**
    * Тип данных для обучения нейросети
    */
@@ -162,6 +165,26 @@ public class TrainingRequest   {
 
   public void setCountEpoch(Integer countEpoch) {
     this.countEpoch = countEpoch;
+  }
+
+  public TrainingRequest countStates(Integer countStates) {
+    this.countStates = countStates;
+    return this;
+  }
+
+  /**
+   * Кол-во состояний (для РЛ)
+   * @return countStates
+  */
+  @ApiModelProperty(value = "Кол-во состояний (для РЛ)")
+
+
+  public Integer getCountStates() {
+    return countStates;
+  }
+
+  public void setCountStates(Integer countStates) {
+    this.countStates = countStates;
   }
 
   public TrainingRequest datasetType(DatasetTypeEnum datasetType) {
@@ -279,6 +302,7 @@ public class TrainingRequest   {
     return Objects.equals(this.cloudToken, trainingRequest.cloudToken) &&
         Objects.equals(this.cloudType, trainingRequest.cloudType) &&
         Objects.equals(this.countEpoch, trainingRequest.countEpoch) &&
+        Objects.equals(this.countStates, trainingRequest.countStates) &&
         Objects.equals(this.datasetType, trainingRequest.datasetType) &&
         Objects.equals(this.neuronNetworkStructure, trainingRequest.neuronNetworkStructure) &&
         Objects.equals(this.pathToDataset, trainingRequest.pathToDataset) &&
@@ -288,7 +312,7 @@ public class TrainingRequest   {
 
   @Override
   public int hashCode() {
-    return Objects.hash(cloudToken, cloudType, countEpoch, datasetType, neuronNetworkStructure, pathToDataset, userUuid, withMentoring);
+    return Objects.hash(cloudToken, cloudType, countEpoch, countStates, datasetType, neuronNetworkStructure, pathToDataset, userUuid, withMentoring);
   }
 
   @Override
@@ -299,6 +323,7 @@ public class TrainingRequest   {
     sb.append("    cloudToken: ").append(toIndentedString(cloudToken)).append("\n");
     sb.append("    cloudType: ").append(toIndentedString(cloudType)).append("\n");
     sb.append("    countEpoch: ").append(toIndentedString(countEpoch)).append("\n");
+    sb.append("    countStates: ").append(toIndentedString(countStates)).append("\n");
     sb.append("    datasetType: ").append(toIndentedString(datasetType)).append("\n");
     sb.append("    neuronNetworkStructure: ").append(toIndentedString(neuronNetworkStructure)).append("\n");
     sb.append("    pathToDataset: ").append(toIndentedString(pathToDataset)).append("\n");

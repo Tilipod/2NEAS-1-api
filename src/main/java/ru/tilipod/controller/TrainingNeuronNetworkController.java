@@ -6,6 +6,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,6 +18,7 @@ import ru.tilipod.controller.dto.TaskStatusChange;
 import ru.tilipod.controller.dto.TrainingRequest;
 import ru.tilipod.controller.dto.TrainingResponse;
 import ru.tilipod.controller.dto.TrainingStatistic;
+import ru.tilipod.controller.dto.User;
 import ru.tilipod.feign.scheduler.SchedulerApi;
 import ru.tilipod.utils.Roles;
 
@@ -35,6 +37,8 @@ public class TrainingNeuronNetworkController {
     @Secured({Roles.CLIENT})
     public ResponseEntity<UUID> createTask(@RequestBody TrainingRequest request) {
         try {
+            User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            request.setUserUuid(user.getUuid());
             return schedulerApi.createTaskUsingPOST(request);
         } catch (FeignException e) {
             return ResponseEntity.status(e.status()).body(null);
